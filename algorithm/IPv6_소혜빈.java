@@ -10,7 +10,7 @@ import static java.util.Collections.fill;
 import static java.util.stream.Collectors.joining;
 
 
-public class Main_bj_IPv6 {
+public class IPv6_소혜빈 {
     private static final String colon = ":";
     private static final String doubleColon = "::";
 

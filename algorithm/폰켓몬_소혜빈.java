@@ -4,7 +4,7 @@ import java.util.Set;
 
 import static java.util.stream.Collectors.*;
 
-public class Prgms_폰켓몬 {
+public class 폰켓몬_소혜빈 {
     public int solution(int[] nums) {
         Set<Integer> set = new HashSet<>();
         set.addAll(Arrays.stream(nums).boxed().collect(toList()));

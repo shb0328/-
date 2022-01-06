@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class Prgms_단속카메라 {
+public class 단속카메라_소혜빈 {
     public int solution(int[][] routes) {
         int answer = 1;
 
