@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -8,35 +10,46 @@ public class Main {
 		String str = br.readLine();
 		String answer = "";
 		String[] arr = str.split(":");
+		List<String> li = new ArrayList<>();
+		List<String> tmp = new ArrayList<>();
 		int cnt = 0;
-		for (String s : arr) {
-			if (s.length() == 0) {
-				if (cnt == 1) {
-					int num = arr.length - 2;
-					for (int i = 0; i < 8 - num; i++)
-						answer += "0000:";
-					cnt = 0;
-				} else {
-					cnt++;
+
+		for (String s1 : arr) {
+			int len = s1.length();
+			if (len > 0) {
+				cnt++;
+				if (len < 4) {
+					for (int i = len; i < 4; i++) {
+						s1 = "0" + s1;
+					}
 				}
-				continue;
-			}
-			if (s.length() == 1) {
-				answer += "000" + s + ":";
-			} else if (s.length() == 2) {
-				answer += "00" + s + ":";
-			} else if (s.length() == 3) {
-				answer += "0" + s + ":";
-			} else {
-				answer += s + ":";
-			}
+			} else
+				s1 = "-1";
+			li.add(s1);
 		}
-		if(str.substring(str.length()-2,str.length()).equals("::")){
-			int num = arr.length;
-			for (int i = 0; i < 8 - num; i++)
-				answer += "0000:";
+
+		boolean flag = false;
+		for (String s2 : li) {
+			if (s2.equals("-1")) {
+				if (flag)
+					continue;
+				for (int i = 0; i < 8 - cnt; i++) {
+					tmp.add("0000");
+				}
+				flag = true;
+			} else
+				tmp.add(s2);
 		}
-		System.out.println(answer.substring(0, answer.length() - 1));
+		
+		while(cnt<8) {
+			tmp.add("0000");
+			cnt++;
+		}
+		for(int i=0;i<8;i++) {
+			System.out.print(tmp.get(i));
+			if(i<7)System.out.print(":");
+		}
+
 		br.close();
 	}
 
