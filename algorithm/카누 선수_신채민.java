@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -22,33 +23,47 @@ public class Main {
 					student[i][j] = Integer.parseInt(st.nextToken());
 				}
 			}
-			sol(0, 0, 0);
-			System.out.println(result);
+
+			int[] sum1 = new int[n * n];
+			int[] sum2 = new int[n * n];
+			int index = 0;
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n; j++) {
+					sum1[index] = student[0][i] + student[1][j];
+					sum2[index++] = student[2][i] + student[3][j];
+				}
+			}
+			Arrays.sort(sum2);
+
+			// 이분탐색
+			int answer = sum1[0] + sum2[0];
+			for (int i = 0; i < n*n; i++) {
+				int start = 0;
+				int end = n * n - 1;
+				int mid = 0;
+				while (start <= end) {
+					mid = (start + end) / 2;
+					int tmp = sum1[i] + sum2[mid];
+					if (Math.abs(tmp - k) < Math.abs(answer - k)) {
+						answer = tmp;
+					} else if (Math.abs(tmp - k) == Math.abs(answer - k)) {
+						answer = tmp < answer ? tmp : answer;
+					}
+
+					if (tmp < k) {
+						start = mid + 1;
+					} else if (tmp > k) {
+						end = mid - 1;
+					}else {
+						answer = k;
+						break;
+					}
+				}
+			}
+
+			System.out.println(answer);
 		}
 		br.close();
-	}
-
-	public static int result;
-
-	public static void sol(int i, int j, int sum) {
-
-		if (Math.abs(sum - k) < Math.abs(result - k)) {
-			result = sum;
-		} else if (Math.abs(sum - k) == Math.abs(result - k)) {
-			result = (result < sum) ? result : sum;
-		}
-
-		if (i == 4) {
-			return;
-		}
-
-		for (int p = 0; p < n; p++) {
-			if (j + p < n) {
-				sol(i + 1, j + p, sum + student[i][j]);
-			}
-		}
-
-		return;
 	}
 
 }
