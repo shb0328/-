@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stack>
 #include <queue>
-#include <stack>
 #include <algorithm>
 using namespace std;
 struct info {
@@ -9,7 +7,7 @@ struct info {
 };
 struct cmp {
 	bool operator()(info &a, info &b) {
-		if (a.left == b.left)		return a.right > b.right;
+		if (a.left == b.left)		return a.right < b.right;
 		return a.left > b.left;
 	}
 };
@@ -19,35 +17,34 @@ int main() {
 	int num, a, b, result = 1;
 	cin >> num;
 	priority_queue<info, vector<info>, cmp> pq;
-
+    priority_queue<int,vector<int>,greater<int>> haveRight;
+    
 	for (int i = 0; i < num; i++) {
 		cin >> a >> b;
 		pq.push({ a,b });
 	}
-	stack<info> s;
 	info ii;
 	ii = pq.top();
 	pq.pop();
-	int sl = ii.left, sr = ii.right;
-	s.push({ sl,sr });
+	haveRight.push(ii.right);
 	int len;
 
 	while (!pq.empty()) {
 		int cl = pq.top().left;
 		int cr = pq.top().right;
+		int hr = haveRight.top();
 		pq.pop();
-		if (cl < sr)	s.push({ cl,cr });
+		if (cl < hr)	haveRight.push(cr);
 		else {
-			s.pop();
-			while (!s.empty()) {
-				sl = s.top().left;
-				sr = s.top().right;
-				if (cl < sr) break;
-				s.pop();
+			haveRight.pop();
+			while (!haveRight.empty()) {
+				hr = haveRight.top();
+				if (cl < hr) break;
+				haveRight.pop();
 			}
-			s.push({ cl,cr });
+			haveRight.push(cr);
 		}
-		len = s.size();
+		len = haveRight.size();
 		result = max(result, len);
 	}
 	cout << result;
