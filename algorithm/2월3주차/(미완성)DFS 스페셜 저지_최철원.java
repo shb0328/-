@@ -1,3 +1,4 @@
+// 73% TLE
 import java.io.*;
 import java.util.*;
 
@@ -8,26 +9,16 @@ public class DFS_스페셜_저지 {
 	static boolean check[];
 	static int arr[];
 	static int idx;
-	static boolean finish;
 	
 	static void dfs(int curNode) {
-		if(finish) return;
-		if(idx == num) {
-			finish=true;
-			return;
-		}
-		boolean avail = false;
 		for(int i=0;i<li[curNode].size();i++) {
 			int next = li[curNode].get(i);
-			if(next==arr[idx] && !check[next]) {
-				avail=true;
-				break;
+			if(!check[next] && arr[idx]==next) {
+				idx++;
+				check[next]=true;
+				dfs(next);
+				i = -1;
 			}
-		}
-		if(avail) {
-			check[arr[idx]]=true;
-			idx++;
-			dfs(arr[idx]);
 		}
 	}
 	
@@ -36,8 +27,6 @@ public class DFS_스페셜_저지 {
 		num = Integer.parseInt(br.readLine());
 		
 		//초기화
-		answer=1;
-		finish=false;
 		li = new List[num+1];
 		for(int i=1;i<=num;i++)
 			li[i] = new ArrayList<>();
@@ -62,10 +51,7 @@ public class DFS_스페셜_저지 {
 			idx=1;
 			dfs(1);
 		}
-		else {
-			answer=0;
-		}
 		
-		System.out.println(answer);
+		System.out.println(idx==num ? 1 : 0);
 	}
 }
