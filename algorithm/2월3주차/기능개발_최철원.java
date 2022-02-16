@@ -6,7 +6,6 @@ class Solution {
         int num = progresses.length;
         for(int i=0;i<num;i++){
             progresses[i] = (int)Math.ceil((double)(100-progresses[i])/speeds[i]);
-            int val = progresses[i];
         }
         
         int idx=0,cnt=0,day=0;
