@@ -2,11 +2,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main_bj_24513_좀비바이러스 {
+public class Main {
     private static int[] dx = {0, 1, 0, -1};
     private static int[] dy = {-1, 0, 1, 0};
     private static int n, m;
@@ -39,6 +38,7 @@ public class Main_bj_24513_좀비바이러스 {
         }
         while (!q.isEmpty()) {
             Pos cur = q.poll();
+            if (infectedVirus3(cur.x, cur.y)) continue;
             for (int d = 0; d < 4; d++) {
                 int nx = cur.x + dx[d];
                 int ny = cur.y + dy[d];
@@ -46,11 +46,6 @@ public class Main_bj_24513_좀비바이러스 {
                 if (hasVaccine(nx, ny)) continue;
                 if (infectedVirus3(nx, ny)) continue;
                 if (isVisited(nx, ny)) {
-//                    System.out.println("*****");
-//                    System.out.println("ny = " + ny);
-//                    System.out.println("nx = " + nx);
-//                    System.out.println("time = " + time[ny][nx]);
-//                    System.out.println("cur = " + cur.time);
                     if (time[ny][nx] != cur.time + 1) continue;
                     if (town[ny][nx] == cur.virus) continue;
                     town[ny][nx] = 3;
@@ -64,18 +59,12 @@ public class Main_bj_24513_좀비바이러스 {
         }
 
         for (int i = 0; i < n; i++) {
-//            System.out.println(Arrays.toString(town[i]));
             for (int j = 0; j < m; j++) {
                 int v = town[i][j];
                 if (v == 0 || v == -1) continue;
                 cnt[v]++;
             }
         }
-
-//        System.out.println();
-//        for (int i = 0; i < n; i++) {
-//            System.out.println(Arrays.toString(time[i]));
-//        }
 
         StringBuilder sb = new StringBuilder();
         sb.append(cnt[1]).append(" ").append(cnt[2]).append(" ").append(cnt[3]);
