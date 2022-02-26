@@ -89,6 +89,9 @@ java에서 제공하는 FunctionalInterface 들의 종류를 잘 정리해놓은
 
 [https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Flux.html](https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Flux.html)
 
+
+### [>> 테스트 코드](https://github.com/shb0328/react-basic-test-ex)
+
 ---
 
 - Reference
@@ -96,7 +99,3 @@ java에서 제공하는 FunctionalInterface 들의 종류를 잘 정리해놓은
     - [https://bgpark.tistory.com/160](https://bgpark.tistory.com/160)
     - [https://projectreactor.io/docs/core/release/api/](https://projectreactor.io/docs/core/release/api/)
     - [https://docs.oracle.com/en/java/javase/17/docs/api/index.html](https://docs.oracle.com/en/java/javase/17/docs/api/index.html)
-
----
-
-### [>> 테스트 코드](https://github.com/shb0328/react-basic-test-ex)
