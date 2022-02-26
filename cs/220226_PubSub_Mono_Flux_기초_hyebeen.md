@@ -3,4 +3,4 @@
 발표자: 소혜빈
 
 - [발표자료](https://www.notion.so/Pub-Sub-Pattern-Mono-Flux-4f6ece3846244fe5a78135af76bdab90)
-- 발표용 테스트코드 추후 공유
+- [테스트 코드](https://github.com/shb0328/react-basic-test-ex)
