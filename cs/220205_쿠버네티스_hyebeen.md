@@ -3,5 +3,7 @@
 발표자: 소혜빈
 
 - [도커](https://www.notion.so/Docker-1ecb5596b23e400b8a6c83044780519a)
-- [쿠버네티스 기초](https://www.notion.so/Kubernetes-k8s-caa9af3a2af145ab95175ea0910a84d5)
-- 추가자료 : [쿠버네티스 실습](https://www.notion.so/kubenetes-Kubenetes-1-b922a0f604994bb89aa85afee69fc1ed)
+- [쿠버네티스 기초 1](https://shb0328.github.io/k8s/1)
+- [쿠버네티스 기초 2](https://shb0328.github.io/k8s/2)
+- [쿠버네티스 기초 3](https://shb0328.github.io/k8s/3)
+- [쿠버네티스 기초 4](https://shb0328.github.io/k8s/4)
