@@ -1,4 +1,5 @@
-public static class Info{
+class Result {
+    public static class Info{
         int x,y;
         public Info(int y, int x){
             this.y=y;
@@ -10,11 +11,12 @@ public static class Info{
 
     public static List<String> bomberMan(int n, List<String> grid) {
         List<String> ans = new ArrayList<>();
+        if(n>2) n = (n-2)%4+2;      //중복되는 패턴 존재
         int row = grid.size();
         int col = grid.get(0).length();
         char arr[][] = new char[row][col];
         int check[][] = new int[row][col];
-        Queue<Info> q = new LinkedList<>();
+        
         int curTime = 0;
         for(int i=0;i<row;i++){
             for(int j=0;j<col;j++){
@@ -40,23 +42,19 @@ public static class Info{
             curTime++;
             for(int i=0;i<row;i++)
                 for(int j=0;j<col;j++)
-                    if(check[i][j]==curTime)
-                        q.offer(new Info(i,j));
-                
-            while(!q.isEmpty()){
-                Info ii = q.poll();
-                int cx = ii.x;
-                int cy = ii.y;
-                arr[cy][cx]='.';
-                for(int k=0;k<4;k++){
-                    int nx = cx+dx[k];
-                    int ny = cy+dy[k];
-                    if(nx>=0 && ny>=0 && nx<col && ny<row)
-                        arr[ny][nx]='.';
-                }
-            }
+                    if(check[i][j]==curTime){
+                        arr[i][j]='.';
+                        for(int k=0;k<4;k++){
+                            int nx = j+dx[k];
+                            int ny = i+dy[k];
+                            if(nx>=0 && ny>=0 && nx<col && ny<row)
+                                arr[ny][nx]='.';
+                        }
+                    }
         }
         for(int i=0;i<row;i++)
             ans.add(new String(arr[i]));
         return ans;
     }
+
+}
