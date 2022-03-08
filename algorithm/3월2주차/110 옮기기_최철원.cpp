@@ -24,22 +24,21 @@ vector<string> solution(vector<string> s) {
                 }
             }
         }
-        string result="",startIdx=-1;
-        for(int i=0;i<idx-1;i++){
-            startIdx=i;
-            if(dq[i]=='1' && dq[i+1]=='1'){
-                if(i<idx-2){
-                    if(dq[i+2]=='1'){   //111
-                        while(cnt--)
-                            result+="110";
-                        break;
-                    }
-                }
+        string result="";
+        int lastZero = -1;
+        for(int i=idx-1;i>=0;i--){
+            if(dq[i]=='0'){
+                lastZero=i;
+                break;
             }
-            else result+=dq[i];
         }
+        
+        for(int i=0;i<=lastZero;i++)
+            result+=dq[i];
         while(cnt--)
             result+="110";
+        for(int i=lastZero+1;i<idx;i++)
+            result+=dq[i];
         answer.push_back(result);
     }
     return answer;
