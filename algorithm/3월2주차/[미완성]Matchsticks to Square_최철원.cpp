@@ -7,7 +7,8 @@ class Solution {
 public:
     int sum=0;
     int num,selectAll;
-    vector<int> v, canMakeIdxList;
+    vector<int> v, canMakeIdxList,v2;
+    bool check[15]={false,};
     bool result = false;
     
     void dfs(int idx, int addResult, int idxSum){
@@ -20,15 +21,26 @@ public:
         dfs(idx+1,addResult, idxSum);
     }
     
-    void getComb(int idx, int addAll){
-        if(idx==4){
-            if(addAll==selectAll)  result = true;
+    void getComb(int idx, int cnt, int addAll){
+        if(cnt==4){
+            if(addAll==selectAll){
+                result = true;
+                for(int a: v2)
+                    cout<<a<<" ";
+                cout<<endl;
+            }
             return;
         }
-        for(int i=0;i<num;i++){
+        for(int i=idx;i<canMakeIdxList.size();i++){
             int val = canMakeIdxList[i];
-            if(addAll+val<=selectAll) getComb(idx+1,addAll+val);
-            else break;
+            if(check[i]) continue;
+            if(addAll+val<=selectAll){
+                check[i]=true;
+                v2.push_back(i);
+                getComb(idx+1,cnt+1,addAll+val);
+                check[i]=false;
+                v2.pop_back();
+            }
         }
     }
     
@@ -43,7 +55,11 @@ public:
         if(canMakeIdxList.size()<4) return false;        //만들 수 있는 경우의 수가 4가지도 안되는 경우
         sort(canMakeIdxList.begin(),canMakeIdxList.end());
         selectAll = (1<<num)-1;
-        getComb(0,0);
+        for(int a: canMakeIdxList)
+            cout << a<<" ";
+        cout<<endl;
+        cout << "SelectAll: "<<selectAll<<endl;
+        getComb(0,0,0);
         return result;
     }
 };
