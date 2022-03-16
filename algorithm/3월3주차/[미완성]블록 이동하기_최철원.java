@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 class Solution {
-    static class Info {
+    static class Info implements Comparable<Info>{
 		int y, x, dir, val;
 
 		public Info(int y, int x, int dir, int val) {
@@ -11,6 +11,11 @@ class Solution {
 			this.dir = dir;
 			this.val = val;
 		}
+        
+        @Override
+        public int compareTo(Info o){
+            return Integer.compare(this.val,o.val);
+        }
 	};
 
 	final static int dx[] = { 0, 1, 1, 1, 0, -1, -1, -1 };
@@ -18,7 +23,7 @@ class Solution {
 	final static int MAX = 101;
 	static HashSet<Long> set;
 	static int bigX, smallX, bigY, smallY, row, col;
-	static boolean canRot[];
+	static int canRot[];
 
 	static boolean cal(int x1, int y1, int x2, int y2) {
 		long first = x1 * MAX + y1;
@@ -33,12 +38,15 @@ class Solution {
 	}
 
 	static void calRot(int y, int x, int dir,int[][] board) {
-		canRot = new boolean[8];
+		canRot = new int[8];
+        for(int i=0;i<8;i++)
+            canRot[i]=10;
 		int cnt = 3;
 		int nd = dir;
-		int ny,nx;
+		int ny,nx,val=0;
 		//시계방향
 		while(cnt-->0) {
+            val++;
 			nd = (nd+1)%8;
 			ny = y+ dy[nd];
 			nx = x+ dx[nd];
@@ -47,7 +55,7 @@ class Solution {
 				ny = y+ dy[nd];
 				nx = x+ dx[nd];
 				if(nx>=0 && ny>=0 && nx<col && ny<row && board[ny][nx]==0) {
-					canRot[nd]=true;
+					canRot[nd]=Math.min(canRot[nd],val);
 				}
 				else break;
 			}
@@ -57,8 +65,10 @@ class Solution {
 		nd=dir;
 		ny=y;
 		nx=x;
+        val=0;
 		//반시계
 		while(cnt-->0) {
+            val++;
 			nd = (nd+7)%8;
 			ny = y+ dy[nd];
 			nx = x+ dx[nd];
@@ -67,7 +77,7 @@ class Solution {
 				ny = y+ dy[nd];
 				nx = x+ dx[nd];
 				if(nx>=0 && ny>=0 && nx<col && ny<row && board[ny][nx]==0) {
-					canRot[nd]=true;
+					canRot[nd]=Math.min(canRot[nd],val);
 				}
 				else break;
 			}
@@ -86,53 +96,55 @@ class Solution {
 		row = board.length;
 		col = board[0].length;
 		set = new HashSet<>();
-		Queue<Info> q = new LinkedList<>();
-		q.offer(new Info(0, 0, 2, 0));
+		PriorityQueue<Info> pq = new PriorityQueue<>();
+		pq.offer(new Info(0, 0, 2, 0));
 		cal(0, 0, 1, 0);
 
-		while (!q.isEmpty()) {
-			Info ii = q.poll();
+		while (!pq.isEmpty()) {
+			Info ii = pq.poll();
 			int cx = ii.x;
 			int cy = ii.y;
 			int cv = ii.val;
 			int cd = ii.dir;
 			int sx = ii.x + dx[cd];
 			int sy = ii.y + dy[cd];
+            System.out.println("cy,cx,sy,sx,cv: " + cy + " " + cx + " " + sy + " " + sx + " " + cv);
 			if ((cx == col - 1 && cy == row - 1) || (sx == col - 1 && sy == row - 1)) {
 				answer = cv;
 				break;
 			}
 			calRot(cy, cx, cd, board);
 			for (int i = 0; i < 8; i += 2) {
-				if (i == cd || !canRot[i])	continue;
+				if (i == cd || canRot[i]==10)	continue;
 				int nsx = cx + dx[i];
 				int nsy = cy + dy[i];
 				if (checkCanGo(nsy,nsx,board)) {
 					if (cal(nsx, nsy, cx, cy))
-						q.offer(new Info(cy, cx, i, cv + 1));
+						pq.offer(new Info(cy, cx, i, cv + canRot[i]));
 				}
 			}
 			calRot(sy, sx, (cd+4)%8, board);
 			for (int i = 0; i < 8; i += 2) {
 				int nd = (i + 4) % 8;
-				if (nd == cd || !canRot[i]) continue;
+				if (nd == cd || canRot[i]==10) continue;
 				int nx = sx + dx[i];
 				int ny = sy + dy[i];
 				if (checkCanGo(ny,nx,board)) {
 					if (cal(nx, ny, sx, sy))
-						q.offer(new Info(sy, sx, i, cv + 1));
+						pq.offer(new Info(sy, sx, i, cv + canRot[i]));
 				}
 			}
 			
 			//그대로 이동
 			for(int i=0;i<8;i+=2) {
+                if(i%4!=cd%4) continue;
 				int nx = cx+dx[i];
 				int ny = cy+dy[i];
 				int nsx = sx+dx[i];
 				int nsy = sy+dy[i];
 				if(checkCanGo(ny,nx,board) && checkCanGo(nsy,nsx,board))
 					if(cal(nx,ny,nsx,nsy))
-						q.offer(new Info(ny,nx,i,cv+1));
+						pq.offer(new Info(ny,nx,i,cv+1));
 			}
 			
 		}
