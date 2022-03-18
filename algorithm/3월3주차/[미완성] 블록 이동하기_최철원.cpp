@@ -1,3 +1,4 @@
+//4,8,10번 TC 오답
 #define MAX 101
 #include <string>
 #include <vector>
