@@ -139,3 +139,71 @@ void move4Dir(int y1, int x1,int y2, int x2, int val) {
 		}
 	}
 }
+
+int solution(vector<vector<int>> board) {
+	int answer = 0;
+	int ny, nx, nv;
+	row = board.size();
+	col = board[0].size();
+	cout << "Row,col: " << row << " " << col << endl;
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < col; j++) {
+			arr[i][j] = board[i][j];
+			cout << arr[i][j];
+		}
+		cout << endl;
+	}
+	q.push({ 0,0,0 });
+	q.push({ 0,1,0 });
+
+	checkInMap(0, 0, 0, 1, 0);
+
+	while (!q.empty()) {
+		int fx = q.front().x;
+		int fy = q.front().y;
+		int cv = q.front().val;
+		q.pop();
+		int sx = q.front().x;
+		int sy = q.front().y;
+		q.pop();
+		long long calVal = calValue(fy, fx, sy, sx);
+		cout << "fy,fx,sy,sx,cv,calVal: " << fy << " " << fx << " " << sy << " " << sx << " " << cv << " " << calVal << endl;
+		
+		if (m[calVal] != cv) continue;
+		if ((fx == col - 1 && fy == row - 1) || (sx == col - 1 && sy == row - 1)) {
+			answer = cv;
+			break;
+		}
+		//fy,fx 기준
+		calRotate(fy, fx, sy, sx);
+		for (int i = 0; i < 8; i += 2) {
+			if (canGo[i] != 10) {
+				ny = fy + dy[i];
+				nx = fx + dx[i];
+				nv = cv + canGo[i];
+				if (checkInMap(fy, fx, ny, nx, nv)) {
+					q.push({ fy,fx,nv });
+					q.push({ ny,nx,nv });
+				}
+			}
+		}
+
+		//sy,sx 기준
+		calRotate(sy, sx, fy, fx);
+		for (int i = 0; i < 8; i += 2) {
+			if (canGo[i] != 10) {
+				ny = sy + dy[i];
+				nx = sx + dx[i];
+				nv = cv + canGo[i];
+				if (checkInMap(sy, sx, ny, nx, nv)) {
+					q.push({ sy,sx,nv });
+					q.push({ ny,nx,nv });
+				}
+			}
+		}
+
+		//상하좌우로 이동
+		move4Dir(fy, fx, sy, sx, cv);
+	}
+	return answer;
+}
