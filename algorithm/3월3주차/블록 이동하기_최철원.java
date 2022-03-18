@@ -41,13 +41,13 @@ class Solution {
     static PriorityQueue<Info> pq;
     
     static long getVal(int x1, int y1, int x2, int y2){
-        PriorityQueue<Info2> pq = new PriorityQueue<>();
-        pq.offer(new Info2(y1,x1));
-        pq.offer(new Info2(y2,x2));
+        PriorityQueue<Info2> pq2 = new PriorityQueue<>();
+        pq2.offer(new Info2(y1,x1));
+        pq2.offer(new Info2(y2,x2));
         long first,sec;
-        Info2 ii = pq.poll();
+        Info2 ii = pq2.poll();
         first = ii.x*MAX+ii.y;
-        ii = pq.poll();
+        ii = pq2.poll();
         sec = ii.x*MAX+ii.y;
 		long val = first * MAX * MAX + sec;
         return val;
