@@ -1,4 +1,3 @@
-//3,6번 TC 오답
 import java.util.*;
 import java.io.*;
 
@@ -159,8 +158,8 @@ class Solution {
                 arr[i][j]=board[i][j];
 		map = new HashMap<>();
 		pq = new PriorityQueue<>();
-		pq.offer(new Info(0, 0, 2, 0));
-		cal(0, 0, 1, 0, 0);
+		pq.offer(new Info(0, 0, 2, 0));     //y,x,dir,val
+		cal(0, 0, 0, 1, 0);
 
 		while (!pq.isEmpty()) {
 			Info ii = pq.poll();
@@ -197,17 +196,7 @@ class Solution {
 				}
 			}
 			
-			//그대로 이동
-			/*for(int i=0;i<8;i+=2) {
-                if(i%4!=cd%4) continue;
-				int nx = cx+dx[i];
-				int ny = cy+dy[i];
-				int nsx = sx+dx[i];
-				int nsy = sy+dy[i];
-				if(checkCanGo(ny,nx,board) && checkCanGo(nsy,nsx,board))
-					if(cal(nx,ny,nsx,nsy,cv+1))
-						pq.offer(new Info(ny,nx,i,cv+1));
-			}*/
+			//상하좌우
 			move4Dir(cy,cx,sy,sx,cv,cd);
 		}
 		return answer;
