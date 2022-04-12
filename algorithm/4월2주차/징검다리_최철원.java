@@ -36,7 +36,7 @@ class Solution {
             if(cnt>n)   r = mid-1;
             else if(cnt<=n){
                 l= mid+1;
-                answer = mid;         //해당 줄은 cnt==n일때만 해야 하는게 아닌가.. 문제 오류 아닌가?
+                answer = mid;         //해당 줄은 cnt==n일때만 해야 하는게 아닌가.. 문제 오류 아닌가? -> 반례) 23,[3, 6, 9, 10, 14, 17],2 Ans: 3, 출력: 0
             }
         }
         return answer;
